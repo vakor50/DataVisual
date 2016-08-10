@@ -1,3 +1,8 @@
+html, body, .container {
+	min-width: 400px;
+	width: auto!important;
+}
+
 #sector1 {
 	margin-top:50px;
 }
@@ -19,6 +24,8 @@ svg {
 	background-color: #eee!important; 
 }
 
+
+
 #myText {
 	width: 50%;
 	margin-bottom: 10px;
@@ -31,4 +38,10 @@ svg {
 
 li i {
 	float: right;
+	/*display: inline-block;*/
+}
+
+li h4 {
+	display: inline-block;
+	/*width: 80%;*/
 }
