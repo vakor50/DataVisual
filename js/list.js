@@ -105,9 +105,12 @@ $('#addItemButton').click(function() {
 		item = toName(item).trim();
 
 		// Append the new person to the element with id="myList"
-		$('#myList').append('<li onClick="complete('+numItems+')" class="list-group-item" id="person' + numItems + '" value="1">' 
-			+ (numItems + 1) + ') ' + item + "  ");
+		// $('#myList').append('<a href="#" class="list-group-item" id="person' + numItems + '" value="1" onClick="complete('+numItems+')">');
+		
+		$('#myList').append('<li onClick="complete('+numItems+')" class="list-group-item" id="person' + numItems + '" value="1">');
+			// + (numItems + 1) + ') ' + item + "  ");
 
+		$('#person' + numItems).append('<h4 class="list-group-item-heading">' + (numItems + 1) + ') ' + item + '</h4>');
 		// if there isn't content in text area don't add anything extra
 		if($('#myComment').val() == "") {
 			$('#myList').append('</li>');
@@ -120,7 +123,7 @@ $('#addItemButton').click(function() {
 			comment = comment.trim();
 
 			// append the information from the text area to the li
-			$('#person' + numItems).append('<p id="para'+numItems+'">' + comment + '</p></li>');
+			$('#person' + numItems).append('<p class="list-group-item-text" id="para'+numItems+'">' + comment + '</p></li>');
 
 		}
 
