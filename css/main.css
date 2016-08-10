@@ -1,0 +1,34 @@
+#sector1 {
+	margin-top:50px;
+}
+
+svg {
+	margin-top: 100px;
+}
+
+#myList {
+	margin-top: 20px;
+}
+
+#myList li {
+	padding: 20px;
+}
+
+#myList li:hover {
+	/* Use important so hover continues after click */
+	background-color: #eee!important; 
+}
+
+#myText {
+	width: 50%;
+	margin-bottom: 10px;
+}
+
+#myComment {
+	width: 50%;
+	margin-bottom: 20px;
+}
+
+li i {
+	float: right;
+}
