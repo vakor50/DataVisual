@@ -63,21 +63,33 @@
 		</nav>
 
 
-		<div class="row" id="sector1">
-			<div id="search" class="form-inline">
-				<input class="form-control" type="text" id="website" placeholder="Enter url">
-				<button id="searchButton" class="btn btn-primary">Search</button>
-			</div>
-		</div>
-		<div id="bubbles">
+		<div  id="sector1">
+		
+		<!-- ******************************************** -->
+		<!-- 			   Add a Person			      	  -->
+		<!-- ******************************************** --> 
+		<div  id="addItem" class="form-inline">
+      		<input class="form-control" type="text" id="myText" placeholder="Enter task name">
+      		<br>
+	      	<textarea id="myComment" placeholder="Enter details" class="form-control" rows="3"></textarea>
+	      	<br>
+   			<button id="addItemButton" class="btn btn-primary">Add Task</button>
+     	</div>
 
-		</div>
+		<!-- ******************************************** -->
+		<!-- 			  Trip Participants 			  -->
+		<!-- ******************************************** --> 
+		<ul id="myList" class="list-group">
+			<!-- <li class="list-group-item" >Trip Participants</li> -->
+		</ul>
+
+
+		
 
 	</div>
 
+
 	<!-- Include code to handle buttons -->
-	<script type="text/javascript" src="js/create.js"></script>
-
+	<script type="text/javascript" src="js/list.js"></script>
 </body>
-
 </html>
