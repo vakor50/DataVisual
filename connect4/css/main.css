@@ -1,0 +1,12 @@
+table {
+	margin-top: 50px;
+}
+td {
+	height: 40px;
+	min-height: 40px;
+	width: 30px;
+	text-align: center;
+}
+td:hover {
+	/*background-color: #eee!important;*/
+}
