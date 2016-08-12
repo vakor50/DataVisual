@@ -73,6 +73,22 @@ $('#searchButton').click(function() {
 			.replace(/ in /g, ' ')
 			.replace(/ an /g, ' ')
 			.replace(/ so /g, ' ')
+			.replace(/ we /g, ' ')
+			.replace(/ here /g, ' ')
+			.replace(/ for /g, ' ')
+			.replace(/ are /g, ' ')
+			.replace(/ not /g, ' ')
+			.replace(/ that /g, ' ')
+			.replace(/ this /g, ' ')
+			.replace(/ by /g, ' ')
+			.replace(/ than /g, ' ')
+			.replace(/ which /g, ' ')
+			.replace(/ all /g, ' ')
+			.replace(/ do /g, ' ')
+			.replace(/ from /g, ' ')
+			.replace(/ who /g, ' ')
+			.replace(/ what /g, ' ')
+			.replace(/ where /g, ' ')
 			.trim();
 
 	var counts = text.replace(/[^\w\s]/g, "").split(/\s+/).reduce(function(map, word){
@@ -83,6 +99,8 @@ $('#searchButton').click(function() {
 	console.log(text);
 	console.log(counts);
 
+	$('.bubble').remove();
+
 	// for (var key in counts) {
 	// 	if (counts.hasOwnProperty(key)) {
 	// 		console.log(key + " -> " + counts[key]);
@@ -92,13 +110,18 @@ $('#searchButton').click(function() {
 	// hello hello hello my name name is vir vir
 
 	$.each(counts, function(key, value) {
-		arr.push({
-			k: key,
-			v: value
-		});
+		if(value > 1) {
+			arr.push({
+				k: key,
+				v: value
+			});
+		}
 	});
 
 	console.log(arr);
+
+	var width = $(window).width(),
+		height = $(window).width();
 
 	var diameter = 960,
 		format = d3.format(",d"),
@@ -106,16 +129,15 @@ $('#searchButton').click(function() {
 
 	var bubble = d3.layout.pack()
 		.sort(null)
-		.size([diameter, diameter])
+		.size([width, height])
 		.padding(1.5);
 
 	var svg = d3.select("body").append("svg")
-		.attr("width", diameter)
-		.attr("height", diameter)
+		.attr("width", width)
+		.attr("height", height)
 		.attr("class", "bubble");
 
-	var width = 960,
-		height = 500;
+	
 
 
 	// --------------------------------------------------//
@@ -133,7 +155,7 @@ $('#searchButton').click(function() {
 	    .gravity(0.05)
 	    .charge(function(d, i) { return i ? 0 : -2000; })
 	    .nodes(nodes)
-	    .size([diameter, diameter]);
+	    .size([width, height]);
 
 	force.start();
 	// --------------------------------------------------//
@@ -148,7 +170,7 @@ $('#searchButton').click(function() {
 				.data(nodes.slice(1))
 			.enter().append("g")
 				.attr("class", "node")
-				.attr("transform", function() { return "translate(" + 50 + "," + 50 + ")"; });
+				.attr("transform", function() { return "translate(" + 0 + "," + 0 + ")"; });
 
 		// node.append("title")
 		// 	.text(function(d) { return d.className + ": " + format(d.value); });

@@ -1,0 +1,18 @@
+html, body, .container {
+	min-width: 400px;
+	width: auto!important;
+}
+
+#sector1 {
+	margin-top:50px;
+}
+
+svg {
+	/*margin-top: 100px;*/
+}
+
+#website {
+	margin-bottom: 10px;
+	width:50%;
+	min-width: 60px;
+}
