@@ -15,4 +15,6 @@ svg {
 	margin-bottom: 10px;
 	width:50%;
 	min-width: 60px;
+	height: 10%;
+	min-height: 100px;
 }

@@ -12,40 +12,23 @@ function isHTML(str) {
 	return false;
 }
 
-
+// initialize mapping of words to frequency
 var arr = [{k:"-", v:0}];
+
+// ******************************************************** //
+//        JS Function to be run upon 'Search' click			//
+//   Returns a bubble cloud associated with word frequency	//
+// ******************************************************** //
 $('#searchButton').click(function() {
+	// obtain text in input box
 	var text = $('#website').val().trim();
 
-
-	/*
-
-	common words that need to be removed
-	a
-	the
-	I
-	to
-	can
-	that
-	s
-	nt 
-	ll
-	re
-	is
-	and
-	on
-	as
-	of
-	or
-
-	*/
-
-
-	
+	// remove HTML
 	if(isHTML(text)) {
 		text = $(text)[0].textContent;
 	}
 
+	// strip words or phrases that occur frequently
 	text = text
 			.toLowerCase()
 			.replace(/[^a-zA-Z]/g, ' ')
@@ -91,24 +74,20 @@ $('#searchButton').click(function() {
 			.replace(/ where /g, ' ')
 			.trim();
 
+	// perform mapping between word and its frequency
 	var counts = text.replace(/[^\w\s]/g, "").split(/\s+/).reduce(function(map, word){
-    	map[word] = (map[word]||0)+1;
-    	return map;
+		map[word] = (map[word]||0)+1;
+		return map;
 	}, Object.create(null));
 
 	console.log(text);
 	console.log(counts);
 
+
+	// clear contents if something exists
 	$('.bubble').remove();
 
-	// for (var key in counts) {
-	// 	if (counts.hasOwnProperty(key)) {
-	// 		console.log(key + " -> " + counts[key]);
-	// 	}
-	// }
-
-	// hello hello hello my name name is vir vir
-
+	// build the mapping based on the words detected
 	$.each(counts, function(key, value) {
 		if(value > 1) {
 			arr.push({
@@ -120,18 +99,22 @@ $('#searchButton').click(function() {
 
 	console.log(arr);
 
+	// set height and width of the div that contains the bubble cloud
 	var width = $(window).width(),
 		height = $(window).width();
 
+	// set initial settings for bubble
 	var diameter = 960,
 		format = d3.format(",d"),
 		color = d3.scale.category20c();
 
+	// d3 property to set the packing of circle objects
 	var bubble = d3.layout.pack()
 		.sort(null)
 		.size([width, height])
 		.padding(1.5);
 
+	// initialize bubble d3 object
 	var svg = d3.select("body").append("svg")
 		.attr("width", width)
 		.attr("height", height)
@@ -139,29 +122,32 @@ $('#searchButton').click(function() {
 
 	
 
-
 	// --------------------------------------------------//
+	// create nodes based on word map
 	var nodes = d3.range(arr.length).map(function(d) { 
 			console.log(arr[d].v);
 			return {radius: arr[d].v * 10}; 
 		}),
-	    root = nodes[0],
-	    color = d3.scale.category20c();
+		root = nodes[0],
+		color = d3.scale.category20c();
 
 	root.radius = 0;
 	root.fixed = true;
 
+	// create gravity effect on nodes centered on center of bubble div
 	var force = d3.layout.force()
-	    .gravity(0.05)
-	    .charge(function(d, i) { return i ? 0 : -2000; })
-	    .nodes(nodes)
-	    .size([width, height]);
+		.gravity(0.02)
+		.charge(function(d, i) { return i ? 0 : -2000; })
+		.nodes(nodes)
+		.size([width, height]);
 
 	force.start();
 	// --------------------------------------------------//
 
 	var radius = 1;
 	var t = 1;
+
+	// iterate through array of mapped words
 	for (var cir = 1; cir < arr.length; cir++) {
 		console.log("loop " + cir);
 		var node = svg.selectAll(".node")
@@ -175,18 +161,15 @@ $('#searchButton').click(function() {
 		// node.append("title")
 		// 	.text(function(d) { return d.className + ": " + format(d.value); });
 
+		// create the circle whose radius is based on the word frequency
 		node.append("circle")
 			.attr("r", function(d) { 
-				// console.log("d: " + d);
-				
 				return arr[radius++].v * 10; 
 			})
 			.style("fill", function(d, i) { return color(i % 3); });
 
-		/*
-		
-		*/
 
+		// add text for each word centered on the same location as the bubble
 		node.append("text")
 			.attr("dy", ".3em")
 			.style("text-anchor", "middle")
@@ -194,27 +177,29 @@ $('#searchButton').click(function() {
 			.text(function(d) { 
 				return arr[t++].k; 
 			});
+
 		radius++;
 		t++;
 	}
 
 
-
+	// adjust force on circles on tick
 	force.on("tick", function(e) {
-	  var q = d3.geom.quadtree(nodes),
-	      i = 0,
-	      n = nodes.length;
+		var q = d3.geom.quadtree(nodes),
+			i = 0,
+			n = nodes.length;
 
-	  while (++i < n) q.visit(collide(nodes[i]));
+		while (++i < n) q.visit(collide(nodes[i]));
 
-	  svg.selectAll("circle")
-	      .attr("cx", function(d) { return d.x; })
-	      .attr("cy", function(d) { return d.y; });
-	  svg.selectAll("text")
-	      .attr("x", function(d) { return d.x; })
-	      .attr("y", function(d) { return d.y; });
+		svg.selectAll("circle")
+			.attr("cx", function(d) { return d.x; })
+			.attr("cy", function(d) { return d.y; });
+		svg.selectAll("text")
+			.attr("x", function(d) { return d.x; })
+			.attr("y", function(d) { return d.y; });
 	});
 
+	// adjust nodes on mouse move
 	svg.on("mousemove", function() {
 	  var p1 = d3.mouse(this);
 	  root.px = p1[0];
@@ -222,10 +207,10 @@ $('#searchButton').click(function() {
 	  force.resume();
 	});
 
-	// Returns a flattened hierarchy containing all leaf nodes under the root.
 
 	d3.select(self.frameElement).style("height", diameter + "px");
 
+	// math to shift bubbles based on gravity
 	function collide(node) {
 		var r = node.radius + 16,
 				nx1 = node.x - r,
